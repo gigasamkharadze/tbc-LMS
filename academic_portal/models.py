@@ -7,6 +7,7 @@ from academic_portal.choices import YEAR_OF_STUDY_CHOICES
 
 # Create your models here.
 class Lecturer(models.Model):
+    user = models.OneToOneField('users.CustomUser', on_delete=models.CASCADE, verbose_name=_('User'))
     courses = models.ManyToManyField('Course', verbose_name=_('Courses'), related_name='lecturers')
     email = models.EmailField(primary_key=True, verbose_name=_('Email'))
     first_name = models.CharField(max_length=50, null=False, blank=False, verbose_name=_('First Name'))
@@ -27,6 +28,7 @@ class Lecturer(models.Model):
 
 
 class Student(models.Model):
+    user = models.OneToOneField('users.CustomUser', on_delete=models.CASCADE, verbose_name=_('User'), related_name='student')
     courses = models.ManyToManyField('Course', verbose_name=_('Courses'), related_name='students')
     faculty = models.ForeignKey('Faculty', on_delete=models.CASCADE, verbose_name=_('Faculty'), related_name='students')
     email = models.EmailField(primary_key=True, verbose_name=_('Email'))
@@ -54,7 +56,7 @@ class Course(models.Model):
     syllabus = models.FileField(upload_to='syllabus/', verbose_name=_('Syllabus'))
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.code}'
 
     class Meta:
         verbose_name = _('Course')

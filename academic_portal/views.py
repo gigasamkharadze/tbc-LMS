@@ -1,18 +1,30 @@
-from django.shortcuts import redirect, render
-from academic_portal.models import Faculty
-from academic_portal.forms import CourseForm
+from django.shortcuts import redirect, render, get_object_or_404
+
+from academic_portal.models import Course
+
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'home1.html')
+
 
 def add_course(request):
-    if request.method == 'POST':
-        form = CourseForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+    user = request.user
+    if user.is_authenticated:
+        if request.method == 'POST':
+            course = request.POST.get('course')
+            course = get_object_or_404(Course, code=course)
+            user.student.courses.add(course)
+        #     go to the same page
+            return redirect('academic_portal:add_course')
+        else:
+            student = user.student
+            return render(request, 'add_course.html', {
+                'courses': student.courses.all(),
+                'first_name': student.first_name,
+                'last_name': student.last_name,
+                'faculty': student.faculty,
+                'all_courses': student.faculty.courses.all()
+            })
     else:
-        form = CourseForm()
-        faculties = Faculty.objects.all()  
-    return render(request, 'subjectform.html', {'form': form, 'faculties': faculties})
+        return redirect('login')
