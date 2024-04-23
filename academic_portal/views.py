@@ -15,6 +15,8 @@ def add_course(request):
         if request.method == 'POST':
             course = request.POST.get('course')
             course = get_object_or_404(Course, code=course)
+            if user.student.courses.filter(code=course.code).exists() or user.student.courses.count() >= 7:
+                return redirect('academic_portal:add_course')
             user.student.courses.add(course)
             return redirect('academic_portal:add_course')
         else:
