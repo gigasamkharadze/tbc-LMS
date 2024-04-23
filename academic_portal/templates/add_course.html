@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>Hello, {{ first_name }} {{ last_name }}</p>
+        <p>You are studying {{faculty }}</p>
+        <p>Here are the courses you are studying:</p>
+        <ul>
+            {% for course in courses %}
+                <li>{{ course }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    
+    <div id="add-course-container">
+        <p>Take course</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            <select name="course">
+                {% for course in all_courses %}
+                    <option value="{{ course }}">{{ course }}</option>
+                {% endfor %}
+            </select>
+            <input id="add-course" data-num-courses="{{ num_courses }}" type="submit" value="Add course">
+        </form>
+    </div>
+</body>
+</html>
