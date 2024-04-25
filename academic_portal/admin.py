@@ -1,5 +1,5 @@
 from django.contrib import admin
-from academic_portal.models import Lecturer, Student, Course, Faculty
+from academic_portal.models import Lecturer, Student, Course, Faculty, Assignment
 # Register your models here.
 
 
@@ -38,7 +38,13 @@ class FacultyAdmin(admin.ModelAdmin):
     courses_display.short_description = 'Courses'
 
 
+class AssignmentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'due_date', 'course')
+    search_fields = ('title', 'description')
+
+
 admin.site.register(Lecturer, LecturerAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Assignment, AssignmentAdmin)
