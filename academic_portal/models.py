@@ -77,3 +77,22 @@ class Faculty(models.Model):
     class Meta:
         verbose_name = _('Faculty')
         verbose_name_plural = _('Faculties')
+
+
+class Assignment(models.Model):
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, verbose_name=_('Course'), related_name='assignments')
+    title = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Title'))
+    description = models.TextField(verbose_name=_('Description'))
+    due_date = models.DateTimeField(verbose_name=_('Due Date'))
+    file = models.FileField(upload_to='assignments/', verbose_name=_('File'))
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = _('Assignment')
+        verbose_name_plural = _('Assignments')
+        ordering = ['title', 'due_date']
+        indexes = [
+            models.Index(fields=['title'], name='assignment_title_idx'),
+        ]
