@@ -7,7 +7,7 @@ from academic_portal.choices import YEAR_OF_STUDY_CHOICES
 
 # Create your models here.
 class Lecturer(models.Model):
-    user = models.OneToOneField('users.CustomUser', on_delete=models.CASCADE, verbose_name=_('User'))
+    user = models.OneToOneField('users.CustomUser', on_delete=models.CASCADE, verbose_name=_('User'), related_name='lecturer')
     courses = models.ManyToManyField('Course', verbose_name=_('Courses'), related_name='lecturers')
     email = models.EmailField(primary_key=True, verbose_name=_('Email'))
     first_name = models.CharField(max_length=50, null=False, blank=False, verbose_name=_('First Name'))
