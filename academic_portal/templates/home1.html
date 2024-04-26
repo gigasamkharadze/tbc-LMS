@@ -18,7 +18,7 @@
         {% if user.lecturer %}
             <a href="{% url 'academic_portal:assignment' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Create Assignments</a>
         {% elif user.student %}
-            <a href="/add_course/" class="bg-blue-500 text-white py-2 px-4 rounded">Add Courses</a>
+            <a href="{% url 'academic_portal:add_course' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add Courses</a>
         {% endif %}
 
     </nav>
