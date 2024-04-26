@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 
@@ -6,6 +7,7 @@ from academic_portal.forms import AssignmentForm
 
 
 # Create your views here.
+@login_required
 def home(request):
     return render(request, 'home1.html')
 
