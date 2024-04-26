@@ -45,7 +45,9 @@ class AssignmentView(View):
         user = request.user
         if user.is_authenticated:
             if hasattr(user, 'student'):
-                pass
+                if hasattr(user, 'student'):
+                    form = AssignmentForm()
+                    return render(request, 'student_assignment_submission.html', {'form': form})
             elif hasattr(user, 'lecturer'):
                 return render(request, 'create_assignment.html', {
                     'form': AssignmentForm()
@@ -57,7 +59,11 @@ class AssignmentView(View):
         user = request.user
         if user.is_authenticated:
             if hasattr(user, 'student'):
-                pass
+                form = AssignmentForm(request.POST, request.FILES)
+                if form.is_valid():
+                    form.save()
+                    return redirect('academic_portal:assignment')
+                return render(request, 'student_assignment_submission.html', {'form': form})
             elif hasattr(user, 'lecturer'):
                 form = AssignmentForm(request.POST)
                 if form.is_valid():
