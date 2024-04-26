@@ -9,7 +9,9 @@ from academic_portal.forms import AssignmentForm
 # Create your views here.
 @login_required
 def home(request):
-    return render(request, 'home1.html')
+    return render(request, 'home1.html', {
+        'user': request.user,
+    })
 
 
 def add_course(request):

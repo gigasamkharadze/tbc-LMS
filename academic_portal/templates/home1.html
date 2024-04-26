@@ -15,7 +15,12 @@
         <p class="text-gray-700">Welcome to the Academic Portal. Here, you can manage your academic activities.</p>
     </main>
     <nav class="container mx-auto mt-8 px-4">
-        <a href="{% url 'academic_portal:add_course' %}" class="text-blue-500 hover:underline">Add Course</a>
+        {% if user.lecturer %}
+            <a href="{% url 'academic_portal:assignment' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Create Assignments</a>
+        {% elif user.student %}
+            <a href="/add_course/" class="bg-blue-500 text-white py-2 px-4 rounded">Add Courses</a>
+        {% endif %}
+
     </nav>
 </body>
 </html>
