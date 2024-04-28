@@ -9,8 +9,14 @@ from academic_portal.forms import AssignmentForm
 # Create your views here.
 @login_required
 def home(request):
+    assignments = []
+    if hasattr(request.user, 'lecturer'):
+        courses = request.user.lecturer.courses.all()
+        for course in courses:
+            assignments = assignments + list(course.assignments.all())
     return render(request, 'home1.html', {
         'user': request.user,
+        'assignments': assignments
     })
 
 
@@ -62,13 +68,13 @@ class AssignmentView(View):
                 form = AssignmentForm(request.POST, request.FILES)
                 if form.is_valid():
                     form.save()
-                    return redirect('academic_portal:assignment')
+                    return redirect('academic_portal:home')
                 return render(request, 'student_assignment_submission.html', {'form': form})
             elif hasattr(user, 'lecturer'):
                 form = AssignmentForm(request.POST)
                 if form.is_valid():
                     form.save()
-                    return redirect('academic_portal:assignment')
+                    return redirect('academic_portal:home')
                 return render(request, 'create_assignment.html', {
                     'form': form
                 })
