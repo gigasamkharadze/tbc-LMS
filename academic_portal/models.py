@@ -80,7 +80,7 @@ class Faculty(models.Model):
 
 
 class Assignment(models.Model):
-    course = models.OneToOneField('Course', on_delete=models.CASCADE, verbose_name=_('Course'), related_name='assignments')
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, verbose_name=_('Course'), related_name='assignments')
     title = models.CharField(max_length=100, null=False, blank=False, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     due_date = models.DateTimeField(verbose_name=_('Due Date'))
