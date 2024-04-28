@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+</head>
+<body>
+    {% block content %}
+    <h1 class="text-2xl font-semibold text-center">Mark Attendance for {{ course.title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="course_code" value="{{ course.code }}">
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ current_date }}" required><br><br>
+    
+        <h3>Students That Take this Course:</h3>
+        {% for student in students %}
+        <input type="checkbox" id="student_{{ student.email }}" name="students_attended" value="{{ student.email }}">
+        <label for="student_{{ student.email }}">{{ student.first_name }} {{ student.last_name }}</label><br>
+        {% endfor %}
+        <button type="submit">Submit Attendance</button>
+        
+    </form>
+    {% endblock %}
+</body>
+</html> 

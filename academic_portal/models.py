@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext as _
+from users.models import CustomUser
+from datetime import date
 
 # import choices
 from academic_portal.choices import YEAR_OF_STUDY_CHOICES
@@ -96,3 +98,11 @@ class Assignment(models.Model):
         indexes = [
             models.Index(fields=['title'], name='assignment_title_idx'),
         ]
+
+
+class Attendance(models.Model):
+    date = models.DateField(default=date.today)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    students_attended = models.ManyToManyField(CustomUser, related_name='attended_courses')
+    def __str__(self):
+        return f"{self.course.title} - {self.date}"

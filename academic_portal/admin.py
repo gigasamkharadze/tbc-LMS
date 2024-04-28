@@ -1,5 +1,5 @@
 from django.contrib import admin
-from academic_portal.models import Lecturer, Student, Course, Faculty, Assignment
+from academic_portal.models import Lecturer, Student, Course, Faculty, Assignment, Attendance
 # Register your models here.
 
 
@@ -48,3 +48,4 @@ admin.site.register(Student, StudentAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
+admin.site.register(Attendance)
