@@ -104,5 +104,6 @@ class Attendance(models.Model):
     date = models.DateField(default=date.today)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     students_attended = models.ManyToManyField(CustomUser, related_name='attended_courses')
+    
     def __str__(self):
         return f"{self.course.title} - {self.date}"
