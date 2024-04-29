@@ -5,6 +5,7 @@ from django.db import transaction
 from academic_portal.models import Course, Attendance
 from academic_portal.forms import AssignmentForm, AttendanceForm
 from users.models import CustomUser
+from datetime import date
 
 # Create your views here.
 @login_required
