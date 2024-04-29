@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <form method="post" action="{% url 'academic_portal:success_page' course.code %}">
+        {% csrf_token %}
+        <main class="text-2xl font-semibold text-center">
+            <h2>Attendance Registered Successfully</h2>
+            <p>Thank you for marking attendance for {{ course.title }}.</p>
+        </main>
+        <p><a class="bg-blue-500 text-white py-2 px-4 rounded" href="{% url 'academic_portal:home' %}">Return to Home</a></p>
+    </form>
+    
+        
+{% endblock %}
+</body>
+</html>

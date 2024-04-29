@@ -28,6 +28,9 @@
                 </div>
             {% endfor %}
             <a href="{% url 'academic_portal:assignment' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Create Assignments</a>
+            {% if user.is_authenticated and user.lecturer %}
+                <a href="{% url 'academic_portal:choose_course' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Register Attendance for Courses</a>
+        {% endif %}
         {% elif user.student %}
             <a href="{% url 'academic_portal:add_course' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Add Courses</a>
             <a href="{% url 'academic_portal:assignment' %}" class="bg-blue-500 text-white py-2 px-4 rounded">Submit Homework</a>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Course</title>
+</head>
+<body>
+    {% block content %}
+    <h1 class="text-xl font-semibold mb-4">Choose a Course to Register Attendance:</h1>
+    <br>
+    <div class="container">
+      <ul>
+        {% for course in courses %}
+        <li>
+            <a href="{% url 'academic_portal:attendance_registration' course.code %}" >Register Attendance for - {{ course.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>  
+    </div>
+    {% endblock %}
+</body>
+</html>
