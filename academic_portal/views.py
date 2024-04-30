@@ -58,7 +58,7 @@ class AssignmentView(View):
                     return render(request, 'student_assignment_submission.html', {'form': form})
             elif hasattr(user, 'lecturer'):
                 return render(request, 'create_assignment.html', {
-                    'form': AssignmentForm()
+                    'form': AssignmentForm(lecturer=user.lecturer)
                 })
         else:
             return redirect('login')

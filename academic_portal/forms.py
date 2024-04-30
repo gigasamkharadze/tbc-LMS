@@ -5,6 +5,11 @@ from rest_framework import serializers
 
 
 class AssignmentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        lecturer = kwargs.pop('lecturer', None)
+        super(AssignmentForm, self).__init__(*args, **kwargs)
+        if lecturer:
+            self.fields['course'].queryset = lecturer.courses.all()
 
     class Meta:
         model = Assignment
