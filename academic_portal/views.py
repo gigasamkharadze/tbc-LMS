@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.db import transaction
-from academic_portal.models import Course, Attendance
+from academic_portal.models import Course
 from academic_portal.forms import AssignmentForm, AttendanceForm
 from users.models import CustomUser
 from datetime import date
 
-# Create your views here.
+
 @login_required
 def home(request):
     assignments = []
@@ -48,7 +48,8 @@ def add_course(request):
 
 
 class AssignmentView(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         user = request.user
         if user.is_authenticated:
             if hasattr(user, 'student'):
@@ -62,7 +63,8 @@ class AssignmentView(View):
         else:
             return redirect('login')
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         user = request.user
         if user.is_authenticated:
             if hasattr(user, 'student'):
@@ -83,9 +85,9 @@ class AssignmentView(View):
             return redirect('login')
 
 
-
 class ChooseCourseView(View):
-    def get(self, request):
+    @staticmethod
+    def get(request):
         if request.user.is_authenticated and hasattr(request.user, 'lecturer'):
             lecturer = request.user.lecturer
             courses = lecturer.courses.all()
@@ -93,15 +95,24 @@ class ChooseCourseView(View):
         else:
             return redirect('login')
 
+
 class CourseStudentsView(View):
-    def get(self, request, course_code):
+    @staticmethod
+    def get(request, course_code):
         course = Course.objects.get(code=course_code)
         students = course.students.all()
         current_date = date.today()
         form = AttendanceForm()
-        return render(request, 'attendance_registration.html', {'form':form, 'course': course, 'students': students, 'current_date': current_date})
+        return render(request, 'attendance_registration.html',
+                      {
+                          'form': form,
+                          'course': course,
+                          'students': students,
+                          'current_date': current_date
+                      })
 
-    def post(self, request, course_code):
+    @staticmethod
+    def post(request, course_code):
         course = Course.objects.get(code=course_code)
         students = course.students.all()
         current_date = request.POST.get('date', date.today())
@@ -109,7 +120,7 @@ class CourseStudentsView(View):
         data['course'] = course
         form = AttendanceForm(data=data)
         form.is_valid(raise_exception=True)
-        if  form.is_valid():
+        if form.is_valid():
             with transaction.atomic():
                 attendance = form.save()
                 student_emails = request.POST.getlist('students_attended')
@@ -119,11 +130,17 @@ class CourseStudentsView(View):
                     attendance.students_attended.add(student)
                 return render(request, 'success_page.html', {'course': course})
         else:
-            return render(request, 'attendance_registration.html', {'form': form, 'course': course, 'current_date': current_date, 'students': students})
+            return render(request, 'attendance_registration.html',
+                          {
+                              'form': form,
+                              'course': course,
+                              'current_date': current_date,
+                              'students': students
+                          })
 
 
 class SuccessView(View):
-
-    def get(self, request, course_code):
+    @staticmethod
+    def get(request, course_code):
         course = Course.objects.get(pk=course_code)
-        return render(request, 'success_page.html', {'course':course})
+        return render(request, 'success_page.html', {'course': course})

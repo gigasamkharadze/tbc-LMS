@@ -13,21 +13,14 @@ class AssignmentForm(forms.ModelForm):
             'due_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+
 class CourseForm(forms.ModelForm):
-    
     class Meta:
         model = Course
         fields = ['code', 'title', 'description', 'syllabus']
 
 
-class AttendanceForm(forms.ModelForm):
-
+class AttendanceForm(serializers.ModelSerializer):
     class Meta:
         model = Attendance
-        fields =  ['date', 'course', 'students_attended']
-
-class AttendanceForm(serializers.ModelSerializer):
-    
-    class Meta:
-        model =  Attendance
         fields = ['date', 'course']
